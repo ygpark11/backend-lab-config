@@ -2,4 +2,4 @@ server:
   port: 8081
 
 test:
-  message: "이것은 원본 메시지입니다."
+  message: "이 메시지는 자동으로 업데이트 되었습니다!"
