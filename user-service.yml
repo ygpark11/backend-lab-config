@@ -2,4 +2,4 @@ server:
   port: 8081
 
 test:
-  message: "이 메시지는 자동으로 업데이트 되었습니다!"
+  message: "git push만으로 완벽하게 자동 업데이트 성공!"
