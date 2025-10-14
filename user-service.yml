@@ -1,2 +1,5 @@
 server:
   port: 8081
+
+test:
+  message: "이것은 원본 메시지입니다."
