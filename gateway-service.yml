@@ -11,3 +11,19 @@ spring:
               uri: lb://user-service # eureka 서버에 등록된 user-service에 주소로 찾아가도록 동적 설정
               predicates:
                 - Path=/users/** # /users/로 시작하는 모든 요청을 잡도록 변경
+              filters:
+                # 필터는 아래 정의된 순서대로 적용
+
+                # 1. 첫 번째 필터: AuthenticationFilter
+                #    - 우리가 생성한 커스텀 필터로, 실제 서비스로 요청을 라우팅하기 전에 인증을 먼저 수행
+                #    - Spring은 클래스 이름 'AuthenticationFilter'에서 'Filter'를 제외한 'Authentication'을 이름으로 자동 인식
+                - name: AuthenticationFilter
+
+                # 2. 두 번째 필터: RewritePath (경로 재작성)
+                #    - 이 필터는 클라이언트가 요청한 경로를 내부 마이크로서비스가 이해할 수 있는 경로로 변경
+                #    - 예를 들어, 외부에서 온 '/users/123/info' 라는 요청 경로를 내부 user-service에는 '/123/info' 로 전달해줍니다.
+                #    - 이렇게 하면 user-service는 불필요한 '/users' 접두사를 신경 쓸 필요가 없어집니다.
+                - name: RewritePath
+                  args:
+                    regexp: /users/(?<segment>.*)
+                    replacement: /$\{segment}
