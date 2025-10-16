@@ -12,6 +12,13 @@ spring:
               predicates:
                 - Path=/users/** # /users/로 시작하는 모든 요청을 잡도록 변경
               filters:
+                # ★★★ 서킷 브레이커 필터 추가 ★★★
+                - name: CircuitBreaker
+                  args:
+                    # 위에서 정의한 서킷 브레이커 인스턴스 이름
+                    name: user-service-breaker
+                    # 서킷이 열렸을 때(장애 발생 시) 보여줄 대체 응답 경로
+                    fallbackUri: forward:/fallback/user
                 # 필터는 아래 정의된 순서대로 적용
 
                 # 1. 첫 번째 필터: AuthenticationFilter
@@ -27,3 +34,22 @@ spring:
                   args:
                     regexp: /users/(?<segment>.*)
                     replacement: /$\{segment}
+
+# Resilience4j 서킷 브레이커 설정
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      # 최소 호출 횟수: 5번의 요청이 쌓이기 전까지는 서킷을 열지 않음
+      minimum-number-of-calls: 5
+      # 실패율 임계값: 최근 5번의 호출 중 50% 이상 실패하면 서킷을 염
+      failure-rate-threshold: 50
+      # 개방 지속 시간: 서킷이 열린 후, 10초 동안은 계속 차단 상태 유지
+      wait-duration-in-open-state: 10s
+      # 허용되는 느린 호출 비율: 2초 이상 걸리는 호출이 60% 이상이면 서킷을 염
+      slow-call-rate-threshold: 60
+      slow-call-duration-threshold: 2s
+  instances:
+    # 이 서킷 브레이커의 고유 이름
+    user-service-breaker:
+      # 위에서 정의한 'default' 설정을 상속받아 사용
+      base-config: default
