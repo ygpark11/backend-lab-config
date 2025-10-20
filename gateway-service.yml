@@ -35,6 +35,16 @@ spring:
                     regexp: /users/(?<segment>.*)
                     replacement: /$\{segment}
 
+            - id: coupon-service-route
+              uri: lb://coupon-service # 유레카에 등록된 서비스 이름
+              predicates:
+                - Path=/coupons/** # /coupons/로 시작하는 모든 요청
+              filters:
+                - name: RewritePath
+                  args:
+                    regexp: /coupons/(?<segment>.*)
+                    replacement: /$\{segment}
+
 # Resilience4j 서킷 브레이커 설정
 resilience4j.circuitbreaker:
   configs:
