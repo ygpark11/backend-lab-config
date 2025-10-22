@@ -3,3 +3,6 @@ server:
 
 test:
   message: "git push만으로 완벽하게 자동 업데이트 성공!"
+
+token:
+  secret: my_super_secret_key_for_jwt_demo_application
