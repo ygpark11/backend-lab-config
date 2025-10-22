@@ -64,3 +64,7 @@ resilience4j.circuitbreaker:
     user-service-breaker:
       # 위에서 정의한 'default' 설정을 상속받아 사용
       base-config: default
+
+# ★★★ JWT 비밀키 추가 (user-service와 동일해야 함) ★★★
+token:
+  secret: this-is-my-new-super-strong-secret-key-for-our-msa-project-!@#
