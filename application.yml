@@ -10,12 +10,3 @@ spring:
     port: 5672
     username: guest
     password: guest
-
-# --- Zipkin 설정 추가 ---
-management:
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans # Zipkin 서버의 데이터 수집 API 주소
-  tracing:
-    sampling:
-      probability: 1.0 # 모든 요청을 추적하도록 설정 (개발/테스트용)
