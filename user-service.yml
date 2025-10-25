@@ -6,3 +6,7 @@ test:
 
 token:
   secret: this-is-my-new-super-strong-secret-key-for-our-msa-project-!@#
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
