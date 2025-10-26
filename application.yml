@@ -19,6 +19,3 @@ management:
   tracing:
     sampling:
       probability: 1.0 # 모든 요청을 추적하도록 설정 (개발/테스트용)
-    enabled: true
-    export:
-      enabled: true
