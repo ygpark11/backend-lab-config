@@ -17,6 +17,18 @@ resilience4j.circuitbreaker:
       # slow-call-rate-threshold: 60
       # slow-call-duration-threshold: 2s
 
+      # Resilience4j가 어떤 예외를 '실패'로 간주할지 명시적으로 등록합니다.
+      # 기본값인 IOException, TimeoutException에 WebClientRequestException을 '추가'합니다.
+      record-exceptions:
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        # (1) 이 예외를 '실패'로 등록합니다.
+        - org.springframework.web.reactive.function.client.WebClientRequestException
+
+      # (참고) WebClientResponseException (503 에러)는
+      # WebClientRequestException의 자식 클래스이므로,
+      # (1) 부모 클래스만 등록해도 함께 처리됩니다.
+
   instances:
     # (★중요★) 우리가 사용할 서킷 브레이커의 고유 이름
     user-service-breaker:
