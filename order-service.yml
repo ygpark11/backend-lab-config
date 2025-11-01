@@ -18,12 +18,26 @@ resilience4j.circuitbreaker:
       # slow-call-duration-threshold: 2s
 
       # Resilience4j가 어떤 예외를 '실패'로 간주할지 명시적으로 등록합니다.
-      # 기본값인 IOException, TimeoutException에 WebClientRequestException을 '추가'합니다.
+      # 기본값인 IOException, TimeoutException에 WebClientResponseException '추가'합니다.
       record-exceptions:
-        - java.io.IOException
-        - java.util.concurrent.TimeoutException
+        - java.io.IOException                # (기본값) 서버 다운 (ConnectException)
+          - java.util.concurrent.TimeoutException  # (기본값) 타임아웃
+          # 5xx 및 4xx 에러를 모두 포함하는 상위 예외 (WebClient가 던짐)
+          - org.springframework.web.reactive.function.client.WebClientResponseException
+
+      # '실패'로 간주하지 "않을" 예외 목록 (위 목록보다 우선순위가 높음)
+      # 4xx 계열은 서버 장애가 아니므로 무시합니다.
+      ignore-exceptions:
+        # 404 Not Found
+        - org.springframework.web.reactive.function.client.WebClientResponseException$NotFound
+        # 400 Bad Request
+        - org.springframework.web.reactive.function.client.WebClientResponseException$BadRequest
+        # 401 Unauthorized
+        - org.springframework.web.reactive.function.client.WebClientResponseException$Unauthorized
+        # 403 Forbidden
+        - org.springframework.web.reactive.function.client.WebClientResponseException$Forbidden
+        # (WebClientRequestException도 서버 장애가 아니므로 무시합니다)
         - org.springframework.web.reactive.function.client.WebClientRequestException
-        - org.springframework.web.reactive.function.client.WebClientResponseException
   instances:
     # (★중요★) 우리가 사용할 서킷 브레이커의 고유 이름
     user-service-breaker:
