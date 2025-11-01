@@ -21,9 +21,9 @@ resilience4j.circuitbreaker:
       # 기본값인 IOException, TimeoutException에 WebClientResponseException '추가'합니다.
       record-exceptions:
         - java.io.IOException                # (기본값) 서버 다운 (ConnectException)
-          - java.util.concurrent.TimeoutException  # (기본값) 타임아웃
-          # 5xx 및 4xx 에러를 모두 포함하는 상위 예외 (WebClient가 던짐)
-          - org.springframework.web.reactive.function.client.WebClientResponseException
+        - java.util.concurrent.TimeoutException  # (기본값) 타임아웃
+        # 5xx 및 4xx 에러를 모두 포함하는 상위 예외 (WebClient가 던짐)
+        - org.springframework.web.reactive.function.client.WebClientResponseException
 
       # '실패'로 간주하지 "않을" 예외 목록 (위 목록보다 우선순위가 높음)
       # 4xx 계열은 서버 장애가 아니므로 무시합니다.
