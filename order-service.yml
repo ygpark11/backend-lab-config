@@ -22,13 +22,8 @@ resilience4j.circuitbreaker:
       record-exceptions:
         - java.io.IOException
         - java.util.concurrent.TimeoutException
-        # (1) 이 예외를 '실패'로 등록합니다.
         - org.springframework.web.reactive.function.client.WebClientRequestException
-
-      # (참고) WebClientResponseException (503 에러)는
-      # WebClientRequestException의 자식 클래스이므로,
-      # (1) 부모 클래스만 등록해도 함께 처리됩니다.
-
+        - org.springframework.web.reactive.function.client.WebClientResponseException
   instances:
     # (★중요★) 우리가 사용할 서킷 브레이커의 고유 이름
     user-service-breaker:
