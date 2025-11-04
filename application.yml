@@ -20,12 +20,15 @@ management:
     zipkin:
       endpoint: http://localhost:9411/api/v2/spans # Zipkin 서버 주소
 
+custom-log-pattern: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %m%n"
+
 logging:
   pattern:
-    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %m%n"
+    console: ${custom-log-pattern}
   # 모든 MSA 서비스의 로그 파일이 저장될 공통 경로
   # (Windows: C:\var\log\msa-logs)
   # (Mac/Linux: /var/log/msa-logs)
   file:
     # path: /var/log/msa-logs 'path' 대신 'name'을 사용하여 서비스별 로그 파일을 생성합니다.
     name: /var/log/msa-logs/${spring.application.name}.log
+    pattern: ${custom-log-pattern}
