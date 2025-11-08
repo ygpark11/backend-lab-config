@@ -2,11 +2,11 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-service:8761/eureka/
 
 spring:
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
@@ -18,7 +18,7 @@ management:
       probability: 1.0 # 모든 요청을 추적하도록 설정 (개발/테스트용)
 
     zipkin:
-      endpoint: http://localhost:9411/api/v2/spans # Zipkin 서버 주소
+      endpoint: http://zipkin:9411/api/v2/spans # Zipkin 서버 주소
 
 custom-log-pattern: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %m%n"
 
