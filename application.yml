@@ -17,7 +17,8 @@ management:
     sampling:
       probability: 1.0 # 모든 요청을 추적하도록 설정 (개발/테스트용)
 
-    zipkin:
+  zipkin:
+    tracing:
       endpoint: http://zipkin:9411/api/v2/spans # Zipkin 서버 주소
 
 custom-log-pattern: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %m%n"
