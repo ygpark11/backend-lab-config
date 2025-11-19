@@ -1,6 +1,10 @@
 server:
   port: 8081
 
+eureka:
+  instance:
+    prefer-ip-address: true
+
 test:
   message: "git push만으로 완벽하게 자동 업데이트 성공!"
 
