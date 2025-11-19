@@ -7,6 +7,16 @@ spring:
       server:
         webflux:
           routes:
+            # 헬스 체크용
+            - id: user-service-health
+              uri: lb://user-service
+              predicates:
+                - Path=/users/actuator/**
+              filters:
+                - name: RewritePath
+                  args:
+                    regexp: /users/(?<segment>.*)
+                    replacement: /$\{segment}
             # 1. user-service 경로
             - id: user-service-route # 규칙 이름
               uri: lb://user-service # eureka 서버에 등록된 user-service에 주소로 찾아가도록 동적 설정
